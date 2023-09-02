@@ -20,6 +20,7 @@ public class Producer extends Thread {
     public Producer(Queue<Integer> queue) {
         this.queue = queue;
         rand = new Random(System.currentTimeMillis());
+        dataSeed = rand.nextInt(100);
     }
 
     @Override
