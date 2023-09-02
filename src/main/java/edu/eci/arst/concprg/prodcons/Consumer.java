@@ -24,13 +24,10 @@ public class Consumer extends Thread {
         while (true) {
             try {
                 synchronized (queue) {
-                    while (queue.isEmpty()) {
-                        System.out.println("Está vacía");
-                        queue.wait();
-                    }
-                    Thread.sleep(1000);
+                    while (queue.isEmpty()) queue.wait();
                     System.out.println("Consumer consumes " + queue.poll());
                     queue.notifyAll();
+                    Thread.sleep(2000);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

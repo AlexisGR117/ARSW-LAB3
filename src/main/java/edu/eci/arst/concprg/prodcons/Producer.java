@@ -14,15 +14,12 @@ import java.util.Random;
 public class Producer extends Thread {
 
     private final Queue<Integer> queue;
-    private final long stockLimit;
-    private int dataSeed = 0;
+    private int dataSeed;
     private Random rand = null;
 
-    public Producer(Queue<Integer> queue, long stockLimit) {
+    public Producer(Queue<Integer> queue) {
         this.queue = queue;
-        queue.stream().limit(12);
         rand = new Random(System.currentTimeMillis());
-        this.stockLimit = stockLimit;
     }
 
     @Override
@@ -30,15 +27,11 @@ public class Producer extends Thread {
         while (true) {
             try {
                 synchronized (queue) {
-                    while (queue.size() == stockLimit) {
-                        System.out.println("Está Llena");
-                        queue.wait();
-                    }
+                    while (!queue.offer(dataSeed)) queue.wait();
+                    System.out.println("Producer added " + dataSeed);
+                    queue.notifyAll();
                     Thread.sleep(1000);
                     dataSeed = dataSeed + rand.nextInt(100);
-                    System.out.println("Producer added " + dataSeed);
-                    queue.add(dataSeed);
-                    queue.notifyAll();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

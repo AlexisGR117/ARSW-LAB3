@@ -13,7 +13,7 @@ Control de hilos con wait/notify. Productor/consumidor.
 
 ![Parte1-1.PNG](img%2FParte1-1.PNG)
 
-> El programa hace uso del 13% se la CPU, el responsable de esto es la clase Consumer, debido a que en cada iteración se valida la condición de que haya mas de un elemento en la cola para consumir, esto sin importar que la cola esté vacía. Además, esto pasa seguido debido a que se produce un nuevo elemento cada segundo, durante este tiempo la cola pertenece vacia y el consumidor sigue haciendo la validación.
+> El programa hace uso del 13% de la CPU, el responsable de esto es la clase Consumer, debido a que en cada iteración se valida la condición de que haya más de un elemento en la cola para consumir, esto sin importar que la cola esté vacía. Además, esto pasa seguido debido a que se produce un nuevo elemento cada segundo, durante este tiempo la cola pertenece vacia y el consumidor sigue haciendo la validación.
 
 2. Haga los ajustes necesarios para que la solución use más eficientemente la CPU, teniendo en cuenta que -por ahora- la producción es lenta y el consumo es rápido. Verifique con JVisualVM que el consumo de CPU se reduzca.
 
@@ -23,9 +23,14 @@ Control de hilos con wait/notify. Productor/consumidor.
 
 3. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
 
+![Parte1-3-1.PNG](img%2FParte1-3-1.PNG)
 
+> Ahora se produce un elemento cada segundo y se consume cada dos segundo. Además, con el fin de cumplir la condición de que la cola tenga un límite de elementos se usa un constructor de LinkedBlockingQueue donde se puede dar su capacidad como parámetro. De igual forma, en Producer se añade queue.wait() para que mientras este llena la cola duerma y cuando Consumer consuma un elemento va a usar notify para despertar al productor. 
 
-> Para este caso se agrega la condición de que la cola tiene un limite de elementos, para esto añadimos queue.wait() para que mientras este llena la cola el productor va a dormir y cuando Consumer consume un elemento va a usar notify para despertar al productor. 
+![Parte1-3-2.PNG](img%2FParte1-3-2.PNG)
+
+> Se prueba con un límite pequeño para el "stock" de 2, no se generaron errores y el consumo de CPU no fue alto (0,0%)
+
 
 ##### Parte II. – Avance para el jueves, antes de clase.
 
