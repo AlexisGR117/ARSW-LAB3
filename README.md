@@ -1,5 +1,6 @@
 
-## Escuela Colombiana de Ingeniería
+## Escuela Colombiana de Ingenierí
+a
 ### Arquitecturas de Software – ARSW
 
 
@@ -47,11 +48,23 @@ Sincronización y Dead-Locks.
 
 2. Revise el código e identifique cómo se implemento la funcionalidad antes indicada. Dada la intención del juego, un invariante debería ser que la sumatoria de los puntos de vida de todos los jugadores siempre sea el mismo(claro está, en un instante de tiempo en el que no esté en proceso una operación de incremento/reducción de tiempo). Para este caso, para N jugadores, cual debería ser este valor?.
 
+> Para N jugadores el valor va ser N * 100, donde 100 es la vida que tiene por defecto un inmortal.
+
 3. Ejecute la aplicación y verifique cómo funcionan las opción ‘pause and check’. Se cumple el invariante?.
+
+![Parte2-3.PNG](img%2FParte2-3.PNG)
+
+> No se cumple la invariante en este caso hay 4 inmortales y la suma de sus vidas da 960, debería ser 400.
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
+> Cuando se oprime el botón "Pause and Check" todos los inmortales se duermen con immortalsPopulation.wait(), después al oprimir el botón resume se despierta a todos los inmortales con immortals.notifyAll(). Para asegurar que primero se duerman todos los hilos antes de calcular la suma de las vidas se usa un AtomicInteger como contador que se incrementa cuando los hilos se van a dormir y mientras el valor de este sea menor que el total de inmortales no sumara sus vidas.
+
 5. Verifique nuevamente el funcionamiento (haga clic muchas veces en el botón). Se cumple o no el invariante?.
+
+![Parte2-5.PNG](img%2FParte2-5.PNG)
+
+> Aún no se cumple la invariante, se pausan todos los hilos pero la suma de estos no es igual a N * 100.
 
 6. Identifique posibles regiones críticas en lo que respecta a la pelea de los inmortales. Implemente una estrategia de bloqueo que evite las condiciones de carrera. Recuerde que si usted requiere usar dos o más ‘locks’ simultáneamente, puede usar bloques sincronizados anidados:
 
@@ -62,18 +75,43 @@ Sincronización y Dead-Locks.
 		}
 	}
 	```
+> La región crítica es cuando un inmortal ataca a otro (método fight) en este se sincronizarán anidadamente los dos inmortales.
 
 7. Tras implementar su estrategia, ponga a correr su programa, y ponga atención a si éste se llega a detener. Si es así, use los programas jps y jstack para identificar por qué el programa se detuvo.
 
+![Parte2-7-1.PNG](img%2FParte2-7-1.PNG)
+
+![Parte2-7-2.PNG](img%2FParte2-7-2.PNG)
+
+> El programa se detuvo en los métodos fight de los inmortales im0 e im1, cada uno se tiene bloqueado y está esperando a bloquear al otro. 
+
 8. Plantee una estrategia para corregir el problema antes identificado (puede revisar de nuevo las páginas 206 y 207 de _Java Concurrency in Practice_).
 
+> Como cada inmortal tiene un nombre diferente, lo usaré para que a la hora de un ataque se comparen el nombre del atacante y del que recibe el ataque, el mayor se bloqueará primero y el menor después de este. 
+
 9. Una vez corregido el problema, rectifique que el programa siga funcionando de manera consistente cuando se ejecutan 100, 1000 o 10000 inmortales. Si en estos casos grandes se empieza a incumplir de nuevo el invariante, debe analizar lo realizado en el paso 4.
+
+![Parte2-9-1.PNG](img%2FParte2-9-1.PNG)
+
+> Con 100 inmortales la suma total de la vida de estos debe ser 100 * 100 = 10000.
+
+![Parte2-9-2.PNG](img%2FParte2-9-2.PNG)
+
+> Con 1000 inmortales la suma total de la vida de estos debe ser 1000 * 100 = 100000.
+
+![Parte2-9-3.PNG](img%2FParte2-9-3.PNG)
+
+> Con 100 inmortales la suma total de la vida de estos debe ser 10000 * 100 = 1000000.
 
 10. Un elemento molesto para la simulación es que en cierto punto de la misma hay pocos 'inmortales' vivos realizando peleas fallidas con 'inmortales' ya muertos. Es necesario ir suprimiendo los inmortales muertos de la simulación a medida que van muriendo. Para esto:
 	* Analizando el esquema de funcionamiento de la simulación, esto podría crear una condición de carrera? Implemente la funcionalidad, ejecute la simulación y observe qué problema se presenta cuando hay muchos 'inmortales' en la misma. Escriba sus conclusiones al respecto en el archivo RESPUESTAS.txt.
 	* Corrija el problema anterior __SIN hacer uso de sincronización__, pues volver secuencial el acceso a la lista compartida de inmortales haría extremadamente lenta la simulación.
 
+> Se hace uso de CopyOnWriteArrayList, que es una lista concurrente que permite lecturas concurrentes sin bloqueos y garantiza que las operaciones de escritura sean seguras mediante la copia de la lista cuando se realiza una operación de escritura.
+
 11. Para finalizar, implemente la opción STOP.
+
+> Se le agrega el evento al botón de STOP, el cual al oprimirlo itera sobre todos los inmortales para que terminen su ejecución, después se vuelve a habilitar el botón de Start.
 
 <!--
 ### Criterios de evaluación
