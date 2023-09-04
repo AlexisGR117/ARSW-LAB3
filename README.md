@@ -1,10 +1,11 @@
 
-## Escuela Colombiana de Ingenierí
-a
+## Escuela Colombiana de Ingeniería
+
 ### Arquitecturas de Software – ARSW
 
-
 #### Ejercicio – programación concurrente, condiciones de carrera y sincronización de hilos. EJERCICIO INDIVIDUAL O EN PAREJAS.
+
+#### Jefer Alexis Gonzalez Romero
 
 ##### Parte I – Antes de terminar la clase.
 
@@ -52,7 +53,9 @@ Sincronización y Dead-Locks.
 
 3. Ejecute la aplicación y verifique cómo funcionan las opción ‘pause and check’. Se cumple el invariante?.
 
-![Parte2-3.PNG](img%2FParte2-3.PNG)
+<p align="center">
+    <img src="img/Parte2-3.png" alt="Imagen con la simulación de inmortales">
+</p>
 
 > No se cumple la invariante en este caso hay 4 inmortales y la suma de sus vidas da 960, debería ser 400.
 
@@ -62,7 +65,9 @@ Sincronización y Dead-Locks.
 
 5. Verifique nuevamente el funcionamiento (haga clic muchas veces en el botón). Se cumple o no el invariante?.
 
-![Parte2-5.PNG](img%2FParte2-5.PNG)
+<p align="center">
+    <img src="img/Parte2-5.png" alt="Imagen con la simulación de inmortales">
+</p>
 
 > Aún no se cumple la invariante, se pausan todos los hilos pero la suma de estos no es igual a N * 100.
 
@@ -91,23 +96,29 @@ Sincronización y Dead-Locks.
 
 9. Una vez corregido el problema, rectifique que el programa siga funcionando de manera consistente cuando se ejecutan 100, 1000 o 10000 inmortales. Si en estos casos grandes se empieza a incumplir de nuevo el invariante, debe analizar lo realizado en el paso 4.
 
-![Parte2-9-1.PNG](img%2FParte2-9-1.PNG)
+<p align="center">
+    <img src="img/Parte2-9-1.png" alt="Imagen con la simulación de 100 inmortales">
+</p>
 
 > Con 100 inmortales la suma total de la vida de estos debe ser 100 * 100 = 10000.
 
-![Parte2-9-2.PNG](img%2FParte2-9-2.PNG)
+<p align="center">
+    <img src="img/Parte2-9-2.png" alt="Imagen con la simulación de 1000 inmortales">
+</p>
 
 > Con 1000 inmortales la suma total de la vida de estos debe ser 1000 * 100 = 100000.
 
-![Parte2-9-3.PNG](img%2FParte2-9-3.PNG)
+<p align="center">
+    <img src="img/Parte2-9-3.png" alt="Imagen con la simulación de 10000 inmortales">
+</p>
 
 > Con 100 inmortales la suma total de la vida de estos debe ser 10000 * 100 = 1000000.
 
 10. Un elemento molesto para la simulación es que en cierto punto de la misma hay pocos 'inmortales' vivos realizando peleas fallidas con 'inmortales' ya muertos. Es necesario ir suprimiendo los inmortales muertos de la simulación a medida que van muriendo. Para esto:
 	* Analizando el esquema de funcionamiento de la simulación, esto podría crear una condición de carrera? Implemente la funcionalidad, ejecute la simulación y observe qué problema se presenta cuando hay muchos 'inmortales' en la misma. Escriba sus conclusiones al respecto en el archivo RESPUESTAS.txt.
 	* Corrija el problema anterior __SIN hacer uso de sincronización__, pues volver secuencial el acceso a la lista compartida de inmortales haría extremadamente lenta la simulación.
-
-> Se hace uso de CopyOnWriteArrayList, que es una lista concurrente que permite lecturas concurrentes sin bloqueos y garantiza que las operaciones de escritura sean seguras mediante la copia de la lista cuando se realiza una operación de escritura.
+> Sí crea una condición de carrera el suprimir los inmortales cuando mueren, ya que de acuerdo a cómo se acceda a la lista de inmortales y cómo se modifique puede alterar la invariante establecida, dependiendo este resultado de cuál de los hilos en ejecución llega primero o realiza una operación antes que los demás. Para solucionar lo anterior se hará uso de una estructura de datos concurrente no bloqueante, para garantizar que múltiples hilos puedan acceder a la lista de inmortales de manera ordenada y controlada.
+> En este caso se hace uso de **CopyOnWriteArrayList**, que es una lista concurrente que permite lecturas concurrentes sin bloqueos y garantiza que las operaciones de escritura sean seguras mediante la copia de la lista cuando se realiza una operación de escritura.
 
 11. Para finalizar, implemente la opción STOP.
 
