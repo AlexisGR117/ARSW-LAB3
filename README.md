@@ -54,7 +54,7 @@ Sincronización y Dead-Locks.
 3. Ejecute la aplicación y verifique cómo funcionan las opción ‘pause and check’. Se cumple el invariante?.
 
 <p align="center">
-    <img src="img/Parte2-3.png" alt="Imagen con la simulación de inmortales">
+    <img src="img/Parte2-3.PNG" alt="Imagen con la simulación de inmortales">
 </p>
 
 > No se cumple la invariante en este caso hay 4 inmortales y la suma de sus vidas da 960, debería ser 400.
@@ -66,7 +66,7 @@ Sincronización y Dead-Locks.
 5. Verifique nuevamente el funcionamiento (haga clic muchas veces en el botón). Se cumple o no el invariante?.
 
 <p align="center">
-    <img src="img/Parte2-5.png" alt="Imagen con la simulación de inmortales">
+    <img src="img/Parte2-5.PNG" alt="Imagen con la simulación de inmortales">
 </p>
 
 > Aún no se cumple la invariante, se pausan todos los hilos pero la suma de estos no es igual a N * 100.
@@ -97,19 +97,19 @@ Sincronización y Dead-Locks.
 9. Una vez corregido el problema, rectifique que el programa siga funcionando de manera consistente cuando se ejecutan 100, 1000 o 10000 inmortales. Si en estos casos grandes se empieza a incumplir de nuevo el invariante, debe analizar lo realizado en el paso 4.
 
 <p align="center">
-    <img src="img/Parte2-9-1.png" alt="Imagen con la simulación de 100 inmortales">
+    <img src="img/Parte2-9-1.PNG" alt="Imagen con la simulación de 100 inmortales">
 </p>
 
 > Con 100 inmortales la suma total de la vida de estos debe ser 100 * 100 = 10000.
 
 <p align="center">
-    <img src="img/Parte2-9-2.png" alt="Imagen con la simulación de 1000 inmortales">
+    <img src="img/Parte2-9-2.PNG" alt="Imagen con la simulación de 1000 inmortales">
 </p>
 
 > Con 1000 inmortales la suma total de la vida de estos debe ser 1000 * 100 = 100000.
 
 <p align="center">
-    <img src="img/Parte2-9-3.png" alt="Imagen con la simulación de 10000 inmortales">
+    <img src="img/Parte2-9-3.PNG" alt="Imagen con la simulación de 10000 inmortales">
 </p>
 
 > Con 100 inmortales la suma total de la vida de estos debe ser 10000 * 100 = 1000000.
